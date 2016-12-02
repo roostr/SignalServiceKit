@@ -61,9 +61,23 @@ NS_ASSUME_NONNULL_BEGIN
             [phoneNumbers addObject:phoneNumber.stringValue];
         }
     }
+
     _userTextPhoneNumbers = [phoneNumbers copy];
     _parsedPhoneNumbers = [self.class parsedPhoneNumbersFromUserTextPhoneNumbers:phoneNumbers];
 
+    // Fixup the first name to be the organization or phone number, as is done in
+    // OWSContactsManager::contactForRecord
+    // TODO: Eliminate this behavior (especially setting the first name to be the phone number),
+    // as it complicates the generation of the initials of a name when making avatars
+    if ((_firstName.length == 0) && (_lastName.length == 0)) {
+        if (contact.organizationName.length > 0) {
+            _firstName = [contact.organizationName copy];
+        } else if (_userTextPhoneNumbers.count > 0) {
+            _firstName = _userTextPhoneNumbers[0];
+            _nameGeneratedFromPhoneNumber = YES;
+        }
+    }
+    
     NSMutableArray<NSString *> *emailAddresses = [NSMutableArray new];
     for (CNLabeledValue *emailField in contact.emailAddresses) {
         if ([emailField.value isKindOfClass:[NSString class]]) {
