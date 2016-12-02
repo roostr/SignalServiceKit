@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) NSArray<NSString *> *userTextPhoneNumbers;
 @property (readonly, nonatomic) NSArray<NSString *> *emails;
 @property (readonly, nonatomic) NSString *uniqueId;
+@property (readonly, nonatomic) BOOL nameGeneratedFromPhoneNumber;
 #if TARGET_OS_IOS
 @property (nullable, readonly, nonatomic) UIImage *image;
 @property (readonly, nonatomic) ABRecordID recordID;

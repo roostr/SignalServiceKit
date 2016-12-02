@@ -34,6 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
     _image = image;
     // Not using emails for old AB style contacts.
     _emails = [NSMutableArray new];
+    
+    if (_userTextPhoneNumbers.count > 0 && [_userTextPhoneNumbers[0] isEqualToString:_firstName]) {
+        _nameGeneratedFromPhoneNumber = YES;
+    }
 
     return self;
 }
